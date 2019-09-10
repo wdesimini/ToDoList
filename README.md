@@ -1,6 +1,12 @@
 # ToDoList
 
 This project is a To-Do list app that employs an [Eisenhower-Matrix](https://www.eisenhower.me/eisenhower-matrix/) approach to task organization.
+Basically, it categorizes tasks into 4 categories to help with sorting out less urgent and important tasks which you should either delegate or not do at all: 
+1. Important & Urgent
+2. Important & Not Urgent
+3. Not Important & Urgent
+4. Not Important & NotUrgent
+
 This is an iOS app written in Objective-C.
 You can add tasks by tapping the "+" UIBarButton in the top-right corner, 
 and delete tasks by swiping their cell in the tableView and tapping the delete button.
