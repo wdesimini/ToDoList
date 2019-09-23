@@ -11,6 +11,7 @@
 #import "ActivityTableViewCell.h"
 #import "ActivityDataManager.h"
 #import "Color+Palette.h"
+#import "SampleData.h"
 
 @implementation ViewController
 
@@ -45,11 +46,14 @@ static UIColor *bgColor = nil;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self loadSampleData]; // For Sample - removes previous activities and loads default activities - note out
-    [self loadActivities];
     
+    // Data
+    [self loadSampleData]; // For Sample - removes previous activities and loads default activities - note out
+    
+    // Views
     bgColor = [UIColor darkGray];
     
+    // NavigationBar
     self.navigationItem.rightBarButtonItem =
     [[UIBarButtonItem alloc]
      initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
@@ -61,8 +65,8 @@ static UIColor *bgColor = nil;
     [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     [self.navigationController.navigationBar setBarTintColor:bgColor];
-    self.navigationController.navigationBar.prefersLargeTitles = YES;
     
+    // TableView
     [self.tableView registerClass:ActivityTableViewCell.class forCellReuseIdentifier: cellId];
     [self.tableView setBackgroundColor:bgColor];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -71,60 +75,21 @@ static UIColor *bgColor = nil;
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    // reload activities data
+    // reload data
     self.activities = [[ActivityDataManager shared] getActivities];
     [self.tableView reloadData];
 }
 
 -(void)loadSampleData {
-    NSMutableArray *actsToAdd = [NSMutableArray<Activity *> new];
-    
-    // load courses data
-    Activity *dishes = Activity.new;
-    dishes.title = @"Dishes";
-    dishes.important = NO;
-    dishes.urgent = YES;
-    
-    Activity *code = Activity.new;
-    code.title = @"Write Objc Code";
-    code.important = YES;
-    code.urgent = NO;
-    
-    Activity *getReady = Activity.new;
-    getReady.title = @"Get Ready for the day";
-    getReady.important = NO;
-    getReady.urgent = YES;
-    
-    Activity *bills = Activity.new;
-    bills.title = @"Pay Bills";
-    bills.important = YES;
-    bills.urgent = YES;
-    
-    Activity *nap = Activity.new;
-    nap.title = @"Take Nap";
-    nap.important = NO;
-    nap.urgent = NO;
-    
-    [actsToAdd addObject:dishes];
-    [actsToAdd addObject:code];
-    [actsToAdd addObject:getReady];
-    [actsToAdd addObject:bills];
-    [actsToAdd addObject:nap];
-    
     [[ActivityDataManager shared] removeAllActivities];
-    NSLog(@"Removed all activities");
-    
+
     // Encode through Singleton
-    for (Activity *activity in actsToAdd) {
+    for (Activity *activity in SampleData.activities) {
         [[ActivityDataManager shared] addActivity:activity];
     }
 }
 
--(void) loadActivities {
-    // decode & load activities to tableView
-    self.activities = [[ActivityDataManager shared] getActivities];
-    [self.tableView reloadData];
-}
+// MARK: Action Methods
 
 -(void) addTapped {
     AddViewController *avc = AddViewController.new;
@@ -132,7 +97,7 @@ static UIColor *bgColor = nil;
     [self presentViewController:nc animated:(YES) completion:nil];
 }
 
-// MARK: TableView Delegate methods
+// MARK: TableViewDelegate methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 4;
@@ -146,7 +111,7 @@ static UIColor *bgColor = nil;
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12, 8, tableView.frame.size.width, 32)];
     label.textColor = [UIColor whiteColor];
     label.font = [UIFont systemFontOfSize:17 weight:UIFontWeightMedium];
-    label.text = [self getTitleForSection:section];
+    label.text = [self titleForSection:section];
     
     [view addSubview:label];
     [view setBackgroundColor:[UIColor clearColor]];
@@ -158,16 +123,9 @@ static UIColor *bgColor = nil;
     return 56;
 }
 
-- (NSString *)getTitleForSection:(NSInteger)section {
-    if (section == 0) {
-        return @"Important and Urgent";
-    } else if (section == 1) {
-        return @"Important";
-    } else if (section == 2) {
-        return @"Urgent";
-    } else {
-        return @"Not Important and Not Urgent";
-    }
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    NSArray *sectionArray = [self arrayForSection:section];
+    return sectionArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

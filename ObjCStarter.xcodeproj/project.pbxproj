@@ -16,6 +16,7 @@
 		CF3DF90E23249811005AD9A1 /* ActivityTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3DF90D23249811005AD9A1 /* ActivityTableViewCell.m */; };
 		CF3DF9112324CF79005AD9A1 /* AddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3DF9102324CF79005AD9A1 /* AddViewController.m */; };
 		CF3DF91C2326A4E1005AD9A1 /* ActivityDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3DF91B2326A4E1005AD9A1 /* ActivityDataManager.m */; };
+		CF9E0BF2233959C50091C6DE /* SampleData.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9E0BF1233959C50091C6DE /* SampleData.m */; };
 		CFD66AB32331816B0029784C /* Color+Palette.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD66AB22331816B0029784C /* Color+Palette.m */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +38,8 @@
 		CF3DF9102324CF79005AD9A1 /* AddViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddViewController.m; sourceTree = "<group>"; };
 		CF3DF91A2326A4E1005AD9A1 /* ActivityDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActivityDataManager.h; sourceTree = "<group>"; };
 		CF3DF91B2326A4E1005AD9A1 /* ActivityDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ActivityDataManager.m; sourceTree = "<group>"; };
+		CF9E0BF0233959C50091C6DE /* SampleData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleData.h; sourceTree = "<group>"; };
+		CF9E0BF1233959C50091C6DE /* SampleData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleData.m; sourceTree = "<group>"; };
 		CFD66AB1233180EF0029784C /* Color+Palette.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Color+Palette.h"; sourceTree = "<group>"; };
 		CFD66AB22331816B0029784C /* Color+Palette.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Color+Palette.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -113,6 +116,8 @@
 			children = (
 				CFD66AB1233180EF0029784C /* Color+Palette.h */,
 				CFD66AB22331816B0029784C /* Color+Palette.m */,
+				CF9E0BF0233959C50091C6DE /* SampleData.h */,
+				CF9E0BF1233959C50091C6DE /* SampleData.m */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -191,6 +196,7 @@
 				CF3DF9002322A803005AD9A1 /* main.m in Sources */,
 				CF3DF91C2326A4E1005AD9A1 /* ActivityDataManager.m in Sources */,
 				CF3DF9112324CF79005AD9A1 /* AddViewController.m in Sources */,
+				CF9E0BF2233959C50091C6DE /* SampleData.m in Sources */,
 				CF3DF8F22322A801005AD9A1 /* AppDelegate.m in Sources */,
 				CF3DF90B23243866005AD9A1 /* Activity.m in Sources */,
 				CF3DF90E23249811005AD9A1 /* ActivityTableViewCell.m in Sources */,
