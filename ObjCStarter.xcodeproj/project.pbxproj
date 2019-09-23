@@ -15,8 +15,8 @@
 		CF3DF90B23243866005AD9A1 /* Activity.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3DF90A23243866005AD9A1 /* Activity.m */; };
 		CF3DF90E23249811005AD9A1 /* ActivityTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3DF90D23249811005AD9A1 /* ActivityTableViewCell.m */; };
 		CF3DF9112324CF79005AD9A1 /* AddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3DF9102324CF79005AD9A1 /* AddViewController.m */; };
-		CF3DF91423257E55005AD9A1 /* SelectableButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3DF91323257E55005AD9A1 /* SelectableButton.m */; };
 		CF3DF91C2326A4E1005AD9A1 /* ActivityDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3DF91B2326A4E1005AD9A1 /* ActivityDataManager.m */; };
+		CFD66AB32331816B0029784C /* Color+Palette.m in Sources */ = {isa = PBXBuildFile; fileRef = CFD66AB22331816B0029784C /* Color+Palette.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,10 +35,10 @@
 		CF3DF90D23249811005AD9A1 /* ActivityTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ActivityTableViewCell.m; sourceTree = "<group>"; };
 		CF3DF90F2324CF79005AD9A1 /* AddViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddViewController.h; sourceTree = "<group>"; };
 		CF3DF9102324CF79005AD9A1 /* AddViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddViewController.m; sourceTree = "<group>"; };
-		CF3DF91223257E55005AD9A1 /* SelectableButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectableButton.h; sourceTree = "<group>"; };
-		CF3DF91323257E55005AD9A1 /* SelectableButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectableButton.m; sourceTree = "<group>"; };
 		CF3DF91A2326A4E1005AD9A1 /* ActivityDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActivityDataManager.h; sourceTree = "<group>"; };
 		CF3DF91B2326A4E1005AD9A1 /* ActivityDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ActivityDataManager.m; sourceTree = "<group>"; };
+		CFD66AB1233180EF0029784C /* Color+Palette.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Color+Palette.h"; sourceTree = "<group>"; };
+		CFD66AB22331816B0029784C /* Color+Palette.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Color+Palette.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +73,7 @@
 			children = (
 				CF3DF8F02322A801005AD9A1 /* AppDelegate.h */,
 				CF3DF8F12322A801005AD9A1 /* AppDelegate.m */,
+				CF9E0BEF2339594A0091C6DE /* Resources */,
 				CF3DF9192326A4C3005AD9A1 /* Model */,
 				CF3DF9182326A4B5005AD9A1 /* View */,
 				CF3DF8F92322A803005AD9A1 /* Assets.xcassets */,
@@ -92,8 +93,6 @@
 				CF3DF90D23249811005AD9A1 /* ActivityTableViewCell.m */,
 				CF3DF90F2324CF79005AD9A1 /* AddViewController.h */,
 				CF3DF9102324CF79005AD9A1 /* AddViewController.m */,
-				CF3DF91223257E55005AD9A1 /* SelectableButton.h */,
-				CF3DF91323257E55005AD9A1 /* SelectableButton.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -107,6 +106,15 @@
 				CF3DF91B2326A4E1005AD9A1 /* ActivityDataManager.m */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		CF9E0BEF2339594A0091C6DE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CFD66AB1233180EF0029784C /* Color+Palette.h */,
+				CFD66AB22331816B0029784C /* Color+Palette.m */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -179,13 +187,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF3DF8F52322A801005AD9A1 /* ViewController.m in Sources */,
+				CFD66AB32331816B0029784C /* Color+Palette.m in Sources */,
 				CF3DF9002322A803005AD9A1 /* main.m in Sources */,
 				CF3DF91C2326A4E1005AD9A1 /* ActivityDataManager.m in Sources */,
 				CF3DF9112324CF79005AD9A1 /* AddViewController.m in Sources */,
 				CF3DF8F22322A801005AD9A1 /* AppDelegate.m in Sources */,
 				CF3DF90B23243866005AD9A1 /* Activity.m in Sources */,
 				CF3DF90E23249811005AD9A1 /* ActivityTableViewCell.m in Sources */,
-				CF3DF91423257E55005AD9A1 /* SelectableButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

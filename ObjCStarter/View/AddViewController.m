@@ -7,7 +7,6 @@
 //
 
 #import "AddViewController.h"
-#import "SelectableButton.h"
 #import "ActivityDataManager.h"
 
 @interface AddViewController ()
@@ -157,47 +156,48 @@
     [self.addButton addConstraints:@[addH, addW]];
 }
 
--(SelectableButton*)createButton: (NSString*)title selector:(SEL)selector {
-    SelectableButton *button = [[SelectableButton alloc] initWithFrame:CGRectZero];
+-(UIButton*)createButton: (NSString*)title selector:(SEL)selector {
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectZero];
+    [button setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [button setImage:nil forState:UIControlStateNormal];
+    UIImage *checkImage = [UIImage imageNamed:@"checkmark_image"];
+    [button setImage:checkImage forState:UIControlStateSelected];
+    [button.imageView setContentMode:UIViewContentModeScaleAspectFit];
     button.backgroundColor = [UIColor grayColor];
     [button setTitle:title forState:normal];
     [button addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
     
-    [button setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.view addSubview:button];
     
     CGFloat btnH = 48.0;
     CGFloat btnW = btnH * 4;
     
-    NSLayoutConstraint *h =
-    [NSLayoutConstraint
-     constraintWithItem:button
-     attribute:NSLayoutAttributeHeight
-     relatedBy:NSLayoutRelationEqual
-     toItem:nil
-     attribute:NSLayoutAttributeNotAnAttribute
-     multiplier:1
-     constant:btnH];
+    NSLayoutConstraint *h = [NSLayoutConstraint
+                             constraintWithItem:button
+                             attribute:NSLayoutAttributeHeight
+                             relatedBy:NSLayoutRelationEqual
+                             toItem:nil
+                             attribute:NSLayoutAttributeNotAnAttribute
+                             multiplier:1
+                             constant:btnH];
     
-    NSLayoutConstraint *w =
-    [NSLayoutConstraint
-     constraintWithItem:button
-     attribute:NSLayoutAttributeWidth
-     relatedBy:NSLayoutRelationEqual
-     toItem:nil
-     attribute:NSLayoutAttributeNotAnAttribute
-     multiplier:1
-     constant:btnW];
+    NSLayoutConstraint *w = [NSLayoutConstraint
+                             constraintWithItem:button
+                             attribute:NSLayoutAttributeWidth
+                             relatedBy:NSLayoutRelationEqual
+                             toItem:nil
+                             attribute:NSLayoutAttributeNotAnAttribute
+                             multiplier:1
+                             constant:btnW];
     
-    NSLayoutConstraint *x =
-    [NSLayoutConstraint
-     constraintWithItem:button
-     attribute:NSLayoutAttributeCenterX
-     relatedBy:NSLayoutRelationEqual
-     toItem:self.view
-     attribute:NSLayoutAttributeCenterX
-     multiplier:1
-     constant:0.0];
+    NSLayoutConstraint *x = [NSLayoutConstraint
+                             constraintWithItem:button
+                             attribute:NSLayoutAttributeCenterX
+                             relatedBy:NSLayoutRelationEqual
+                             toItem:self.view
+                             attribute:NSLayoutAttributeCenterX
+                             multiplier:1
+                             constant:0.0];
     
     [self.view addConstraint:x];
     [button addConstraints:@[h, w]];
@@ -219,7 +219,6 @@
 
 -(void)updateActivitiesInUserDefaults {
     Activity *a = [self fetchActivityFromEntries];
-    
     ActivityDataManager *manager = [ActivityDataManager shared];
     [manager addActivity:a];
 }
@@ -279,6 +278,5 @@
     [textField resignFirstResponder];
     return YES;
 }
-
 
 @end

@@ -22,9 +22,9 @@ NSString * const importanceKey = @"impotance";
 NSString * const urgencyKey = @"urgency";
 
 - (void)encodeWithCoder:(NSCoder *)coder {
-    [coder encodeObject:self.title forKey:titleKey];
-    [coder encodeBool:self.important forKey:importanceKey];
-    [coder encodeBool:self.urgent forKey:urgencyKey];
+    [coder encodeObject: title forKey:titleKey];
+    [coder encodeBool: important forKey:importanceKey];
+    [coder encodeBool: urgent forKey:urgencyKey];
 }
 
 - (id)initWithCoder:(NSCoder *)coder {
