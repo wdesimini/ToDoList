@@ -37,19 +37,6 @@ NSString * const activitiesKey = @"user_activities";
     NSMutableArray *storedArray = [NSKeyedUnarchiver unarchiveObjectWithData:storedData];
     [list addObjectsFromArray:storedArray];
     
-//    if ([ud objectForKey:activitiesKey] == nil) {
-//        return list;
-//    }
-//
-//    NSArray *storedArray = [ud objectForKey:activitiesKey];
-//
-//    for (NSData *data in storedArray) {
-//        NSError *error;
-//#warning Not unarchiving data properly
-//        Activity *storedActivity = [NSKeyedUnarchiver unarchivedObjectOfClass:[Activity class] fromData:data error:&error];
-//        [list addObject:storedActivity];
-//    }
-    
     return list;
 }
 
@@ -68,20 +55,19 @@ NSString * const activitiesKey = @"user_activities";
 }
 
 -(void)encodeActivityArray:(NSArray<Activity *> *)array {
-//    NSMutableArray<NSData *> *encodedArray = [NSMutableArray<NSData *> new];
-//
-//    for (Activity *activity in array) {
-//        NSError *error;
-//        NSData *encodedActivity = [NSKeyedArchiver archivedDataWithRootObject:activity requiringSecureCoding:NO error:&error];
-//        [encodedArray addObject:encodedActivity];
-//    }
-    
     NSError *error = nil;
     NSData *encodedArray = [NSKeyedArchiver archivedDataWithRootObject:array requiringSecureCoding:NO error:&error];
     
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     [ud setObject:encodedArray forKey:activitiesKey];
     [ud synchronize];
+    [self activitiesDidUpdate];
+}
+
+-(void)activitiesDidUpdate {
+    NSLog(@"activities did update");
+    NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+    [defaultCenter postNotificationName:@"activityManagerDidUpdate" object:self];
 }
 
 @end

@@ -14,4 +14,3 @@
 @property (strong, nonatomic) NSMutableArray<Activity*> *activities;
 
 @end
-

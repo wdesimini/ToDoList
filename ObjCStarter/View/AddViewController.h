@@ -22,7 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) UITextField *titleField;
 @property (strong, nonatomic) UIButton *importanceButton;
 @property (strong, nonatomic) UIButton *urgentButton;
-@property (strong, nonatomic) UIButton *addButton;
 
 @end
 

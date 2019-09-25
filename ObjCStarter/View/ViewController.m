@@ -15,7 +15,9 @@
 
 @implementation ViewController
 
+
 // MARK: Data Objects
+
 
 -(NSArray<Activity *> *) sortedActivies {
     return [self.activities sortedArrayUsingSelector:@selector(compare:)];
@@ -36,19 +38,26 @@
 -(NSArray<Activity *> *) urgentActivities { return [self arrayWithPredicates:@[self.notImportant, self.urgent]]; }
 -(NSArray<Activity *> *) nothingActivities { return [self arrayWithPredicates:@[self.notImportant, self.notUrgent]]; }
 
+
 // MARK: View Objects
 
-NSString *cellId = @"cellId";
 
+NSString *cellId = @"cellId";
 static UIColor *bgColor = nil;
 
+
 // MARK: Controller Lifecycle
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Data
-    [self loadSampleData]; // For Sample - removes previous activities and loads default activities - note out
+    // NotificationCenter
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(activityManagerDidUpdate)
+     name:@"activityManagerDidUpdate"
+     object:nil];
     
     // Views
     bgColor = [UIColor darkGray];
@@ -70,34 +79,52 @@ static UIColor *bgColor = nil;
     [self.tableView registerClass:ActivityTableViewCell.class forCellReuseIdentifier: cellId];
     [self.tableView setBackgroundColor:bgColor];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    
+    // Data
+    [self loadSampleData]; // For Sample - removes previous activities and loads default activities - note out
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
+-(void)activityManagerDidUpdate {
     // reload data
     self.activities = [[ActivityDataManager shared] getActivities];
+    NSLog(@"activities count: %lu", self.activities.count);
     [self.tableView reloadData];
 }
 
 -(void)loadSampleData {
-    [[ActivityDataManager shared] removeAllActivities];
+    
+    // check if activities already loaded, if so, don't load again
+    NSArray *previous = [[ActivityDataManager shared] getActivities];
+    
+    if (previous.count != 0) {
+        [self activityManagerDidUpdate];
+        return;
+    }
 
-    // Encode through Singleton
+    // If empty, encode sample data through Singleton
     for (Activity *activity in SampleData.activities) {
         [[ActivityDataManager shared] addActivity:activity];
     }
 }
 
+-(void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+
 // MARK: Action Methods
+
 
 -(void) addTapped {
     AddViewController *avc = AddViewController.new;
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:avc];
+    [nc setModalPresentationStyle:UIModalPresentationFormSheet];
     [self presentViewController:nc animated:(YES) completion:nil];
 }
 
+
 // MARK: TableViewDelegate methods
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 4;
@@ -162,7 +189,9 @@ static UIColor *bgColor = nil;
     }
 }
 
+
 // MARK: Table Section-related functions
+
 
 -(NSArray<Activity *> *)arrayForSection:(NSInteger)section {
     switch (section) {
@@ -175,10 +204,10 @@ static UIColor *bgColor = nil;
 
 -(NSString *)titleForSection:(NSInteger)section {
     switch (section) {
-        case 0: return @"Important and Urgent"; break;
+        case 0: return @"Important / Urgent"; break;
         case 1: return @"Important"; break;
         case 2: return @"Urgent"; break;
-        default: return @"Not Important and Not Urgent"; break;
+        default: return @"Not Important / Not Urgent"; break;
     }
 }
 

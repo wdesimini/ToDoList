@@ -8,6 +8,7 @@
 
 #import "AddViewController.h"
 #import "ActivityDataManager.h"
+#import "Color+Palette.h"
 
 @interface AddViewController ()
 
@@ -15,36 +16,101 @@
 
 @implementation AddViewController
 
+@synthesize titleField = _titleField;
+@synthesize importanceButton = _importanceButton;
+@synthesize urgentButton = _urgentButton;
+
+// MARK: View Objects
+
+static UIColor *bgColor = nil;
+static UIColor *btnColor = nil;
+
+// MARK: Contorller Lifecycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor grayColor];
     [self configureViews];
 }
 
 - (void)configureViews {
-    // configure navigation controller
+    bgColor = [UIColor darkGray];
+    btnColor = [UIColor whiteColor];
+    
+    self.view.backgroundColor = bgColor;
+    
+    // bar button
     UIButton *exitBtn = UIButton.new;
     [exitBtn setTitle:@"Exit" forState:normal];
-    [exitBtn setTitleColor:[UIColor blackColor] forState:normal];
     [exitBtn addTarget:self action:@selector(exitTapped) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem =
-    [[UIBarButtonItem alloc] initWithCustomView:exitBtn];
     
-    // configure textField
+    // configure navigation controller
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:exitBtn];
+    
+    // set title
+    self.navigationItem.title = @"Add Task";
+    NSDictionary<NSAttributedStringKey,id> * atts = @{NSForegroundColorAttributeName : btnColor};
+    [self.navigationController.navigationBar setTitleTextAttributes:atts];
+    
+    // set bar
+    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    [self.navigationController.navigationBar setBarTintColor:bgColor];
+    
+    // configure subviews
+    [self configureTextField];
+    [self configureAttributeButtons];
+    [self configureAddButton];
+}
+
+- (UITextField *)titleField {
+    return _titleField;
+}
+
+- (void)setTitleField:(UITextField *)titleField {
+    [titleField setPlaceholder:@"Enter Task Title..."];
+    [titleField setTextAlignment:NSTextAlignmentCenter];
+    [titleField setTranslatesAutoresizingMaskIntoConstraints:NO];
+    titleField.backgroundColor = [UIColor whiteColor];
+    titleField.returnKeyType = UIReturnKeyDone;
+    titleField.delegate = self;
+    [self.view addSubview:titleField];
+    
+    _titleField = titleField;
+}
+
+-(UIButton *)importanceButton {
+    return _importanceButton;
+}
+
+- (void)setImportanceButton:(UIButton *)importanceButton {
+    _importanceButton = [self createButton:@"Important" selector:@selector(importanceTapped)];
+}
+
+-(UIButton *)urgentButton {
+    return _urgentButton;
+}
+
+- (void)setUrgentButton:(UIButton *)urgentButton {
+    _urgentButton = [self createButton:@"Urgent" selector:@selector(urgentTapped)];
+}
+
+-(UIButton *)addButton {
+    UIButton *button = UIButton.new;
+    [button setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [button setTitle:@"Add" forState:UIControlStateNormal];
+    [button setTitleColor:btnColor forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(addTapped) forControlEvents:UIControlEventTouchUpInside];
+    return button;
+}
+
+-(void)configureTextField {
     self.titleField = UITextField.new;
-    [self.titleField setPlaceholder:@"Enter Task Title..."];
-    [self.titleField setTextAlignment:NSTextAlignmentCenter];
-    [self.titleField setTranslatesAutoresizingMaskIntoConstraints:NO];
-    self.titleField.backgroundColor = [UIColor whiteColor];
-    self.titleField.delegate = self;
-    self.titleField.returnKeyType = UIReturnKeyDone;
-    [self.view addSubview:self.titleField];
     
     CGFloat textFieldH = 48.0;
     CGFloat textFieldW = textFieldH * 5;
     
     NSLayoutConstraint *h = [NSLayoutConstraint
-                             constraintWithItem:self.titleField
+                             constraintWithItem:_titleField
                              attribute:NSLayoutAttributeHeight
                              relatedBy:NSLayoutRelationEqual
                              toItem:nil
@@ -52,7 +118,7 @@
                              multiplier:1
                              constant:textFieldH];
     NSLayoutConstraint *w = [NSLayoutConstraint
-                             constraintWithItem:self.titleField
+                             constraintWithItem:_titleField
                              attribute:NSLayoutAttributeWidth
                              relatedBy:NSLayoutRelationEqual
                              toItem:nil
@@ -61,7 +127,7 @@
                              constant:textFieldW];
     
     NSLayoutConstraint *fieldY = [NSLayoutConstraint
-                                 constraintWithItem:self.titleField
+                                 constraintWithItem:_titleField
                                  attribute:NSLayoutAttributeBottom
                                  relatedBy:NSLayoutRelationEqual
                                  toItem:self.view
@@ -70,7 +136,7 @@
                                  constant:-16.0];
     
     NSLayoutConstraint *fieldX = [NSLayoutConstraint
-                             constraintWithItem:self.titleField
+                             constraintWithItem:_titleField
                              attribute:NSLayoutAttributeCenterX
                              relatedBy:NSLayoutRelationEqual
                              toItem:self.view
@@ -79,13 +145,14 @@
                              constant:0.0];
     [self.view addConstraints:@[fieldY, fieldX]];
     [self.titleField addConstraints:@[h, w]];
-    
-    // configure i/u buttons
-    self.importanceButton = [self createButton:@"Important" selector:@selector(importanceTapped)];
-    self.urgentButton = [self createButton:@"Urgent" selector:@selector(urgentTapped)];
+}
+
+-(void)configureAttributeButtons {
+    self.importanceButton = UIButton.new;
+    self.urgentButton = UIButton.new;
     
     NSLayoutConstraint *iBtnY = [NSLayoutConstraint
-                             constraintWithItem:self.importanceButton
+                             constraintWithItem:_importanceButton
                              attribute:NSLayoutAttributeTop
                              relatedBy:NSLayoutRelationEqual
                              toItem:self.view
@@ -94,30 +161,26 @@
                              constant:16.0];
     
     NSLayoutConstraint *uBtnY = [NSLayoutConstraint
-                                 constraintWithItem:self.urgentButton
+                                 constraintWithItem:_urgentButton
                                  attribute:NSLayoutAttributeTop
                                  relatedBy:NSLayoutRelationEqual
-                                 toItem:self.importanceButton
+                                 toItem:_importanceButton
                                  attribute:NSLayoutAttributeBottom
                                  multiplier:1
                                  constant:16.0];
     
     [self.view addConstraints:@[iBtnY, uBtnY]];
-    
-    // configure add button
-    self.addButton = UIButton.new;
-    [self.addButton setTitle:@"Add" forState:UIControlStateNormal];
-    [self.addButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.addButton addTarget:self action:@selector(addTapped) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.addButton setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.view addSubview:self.addButton];
+}
+
+-(void)configureAddButton {
+    UIButton *addButton = [self addButton];
+    [self.view addSubview:addButton];
     
     CGFloat btnH = 48.0;
     CGFloat btnW = btnH * 4;
     
     NSLayoutConstraint *addH = [NSLayoutConstraint
-                                constraintWithItem:self.addButton
+                                constraintWithItem:addButton
                                 attribute:NSLayoutAttributeHeight
                                 relatedBy:NSLayoutRelationEqual
                                 toItem:nil
@@ -126,7 +189,7 @@
                                 constant:btnH];
     
     NSLayoutConstraint *addW = [NSLayoutConstraint
-                                constraintWithItem:self.addButton
+                                constraintWithItem:addButton
                                 attribute:NSLayoutAttributeWidth
                                 relatedBy:NSLayoutRelationEqual
                                 toItem:nil
@@ -135,16 +198,16 @@
                                 constant:btnW];
     
     NSLayoutConstraint *addY = [NSLayoutConstraint
-                                constraintWithItem:self.addButton
+                                constraintWithItem:addButton
                                 attribute:NSLayoutAttributeTop
                                 relatedBy:NSLayoutRelationEqual
-                                toItem:self.urgentButton
+                                toItem:_urgentButton
                                 attribute:NSLayoutAttributeBottom
                                 multiplier:1
                                 constant:16.0];
     
     NSLayoutConstraint *addX = [NSLayoutConstraint
-                                constraintWithItem:self.addButton
+                                constraintWithItem:addButton
                                 attribute:NSLayoutAttributeCenterX
                                 relatedBy:NSLayoutRelationEqual
                                 toItem:self.view
@@ -153,7 +216,7 @@
                                 constant:0.0];
     
     [self.view addConstraints:@[addY, addX]];
-    [self.addButton addConstraints:@[addH, addW]];
+    [addButton addConstraints:@[addH, addW]];
 }
 
 -(UIButton*)createButton: (NSString*)title selector:(SEL)selector {
@@ -207,12 +270,12 @@
 -(Activity *)fetchActivityFromEntries {
     Activity *activity = Activity.new;
     
-    if (self.titleField.text == nil) { return nil; }
-    if ([self.titleField.text isEqual: @""]) { return nil; }
+    if (_titleField.text == nil) { return nil; }
+    if ([_titleField.text isEqual: @""]) { return nil; }
     
-    activity.title = self.titleField.text;
-    activity.important = self.importanceButton.isSelected;
-    activity.urgent = self.urgentButton.isSelected;
+    activity.title = _titleField.text;
+    activity.important = _importanceButton.isSelected;
+    activity.urgent = _urgentButton.isSelected;
     
     return activity;
 }
@@ -248,13 +311,13 @@
 }
 
 -(void)importanceTapped {
-    BOOL prev = self.importanceButton.isSelected;
-    [self.importanceButton setSelected:!prev];
+    BOOL prev = _importanceButton.isSelected;
+    [_importanceButton setSelected:!prev];
 }
 
 -(void)urgentTapped {
-    BOOL prev = self.urgentButton.isSelected;
-    [self.urgentButton setSelected:!prev];
+    BOOL prev = _urgentButton.isSelected;
+    [_urgentButton setSelected:!prev];
 }
 
 -(void)addTapped {
